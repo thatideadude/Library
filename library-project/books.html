@@ -4,12 +4,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" href="library.css">
+  <title>My Library</title>
 </head>
 
 <body>
-  <script src="library.js">
-  </script>
+  <div class="container">
+    <table class="book-render js-book-render">
+
+      <tr class="table-row">
+        <td  name="title">
+          <input id="input-title" type="text" placeholder="Title">
+          </input>
+        </td>
+        <td class="input-author" name="author">
+          <input id="input-author" type="text" placeholder="Author">
+          </input>
+        </td>
+        <td class="input-pages" name="pages">
+          <input id="input-pages" type="text" placeholder="Pages">
+          </input>
+        </td>
+        <td class="input-status" class="label-read" ><label for="read">Read?</label><input id="read" type="checkbox" checked
+            name="read" value="Read"></input>
+        </td>
+        <td>
+          <div id="add-button">Add Book</div>
+        </td>
+      </tr>
+
+    </table>
+
+  </div>
+
+  <script src="library.js"></script>
 </body>
 
 </html>
