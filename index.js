@@ -865,6 +865,7 @@ function editTitleCell(i) {
     expandTitle();
     isTitleExpanded = 'yes';
   }
+
   editOneCellAtATime();
 
 
@@ -879,6 +880,11 @@ function editTitleCell(i) {
 
   const input = document.getElementById(`titleInput${i}`);
   input.focus();
+  input.addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
+      updateLibrary(i)
+    }
+  });
 
   document.querySelector(`.remove-btn-${i}`).innerText = 'Update';
   document.querySelector(`.remove-div-${i}`).removeAttribute('onclick');
@@ -931,6 +937,12 @@ function editPagesCell(i) {
 
   const input = document.getElementById(`pagesInput${i}`);
   input.focus();
+
+  input.addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
+      updateLibrary(i)
+    }
+  });
 
   document.querySelector(`.remove-btn-${i}`).innerText = 'Update';
   document.querySelector(`.remove-div-${i}`).removeAttribute('onclick');
