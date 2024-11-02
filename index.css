@@ -34,6 +34,8 @@ body {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   transition: grid-template-columns 1000ms;
   overflow-y: scroll;
+  opacity:1;
+  transition: 1s;
 }
 
 .title-cell {

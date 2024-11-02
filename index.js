@@ -818,9 +818,11 @@ function editOneCellAtATime() {
       pagesDiv.appendChild(pagesP);
     }
 
+    try {
     document.querySelector(`.remove-btn-${i}`).innerText = 'Remove';
     document.querySelector(`.remove-div-${i}`).removeAttribute('onclick');
     document.querySelector(`.remove-div-${i}`).setAttribute('onclick', `removeRow(${i})`);
+  } catch (error) { };
   }
 }
 
@@ -962,50 +964,54 @@ function editStatusCell(i) {
 }
 
 let newBookTitle, newBookAuthor, newBookPages, newBookStatus;
-
-
-
-
+let isPopUpShowing = 'no'
 
 function addBook() {
+  if (isPopUpShowing === 'no') {
+    isPopUpShowing = 'yes';
+    document.getElementById('table').style.opacity = 0;
+    const structure = document.querySelector('.table');
+    structure.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr';
+    editOneCellAtATime();
+    const popUp = document.createElement('div');
+    popUp.setAttribute('class', 'input-popup');
+    const message = document.createElement('h1');
+    message.setAttribute('class', 'message');
+    message.innerText = `What's the book called?`;
+    popUp.appendChild(message);
+    const input = document.createElement('input');
+    input.setAttribute('id', 'popup-input');
+    input.setAttribute('onkeydown', `if (event.key === 'Enter') {submitTitle()}`);
+    input.setAttribute('placeholder', 'Insert title');
+    input.setAttribute('type', 'text');
+    input.setAttribute('autocomplete', 'off');
+    popUp.appendChild(input);
+    const check = document.createElement('img');
+    check.removeAttribute('display');
+    check.setAttribute('id', 'popup-check');
+    check.style.filter = currentBackFilter;
+    check.setAttribute('src', 'imgs/check_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg');
+    check.setAttribute('onclick', 'submitTitle()');
+    popUp.appendChild(check);
+    const closeTag = document.createElement('p');
+    closeTag.setAttribute('class', 'close-tag');
+    closeTag.innerText = 'X';
+    closeTag.setAttribute('onclick', 'closePopUp()');
+    popUp.appendChild(closeTag);
+    popUp.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        closePopUp();
+      }
+    })
+    document.body.append(popUp);
+    input.focus();
 
-  const popUp = document.createElement('div');
-  popUp.setAttribute('class', 'input-popup');
-  const message = document.createElement('h1');
-  message.setAttribute('class', 'message');
-  message.innerText = `What's the book called?`;
-  popUp.appendChild(message);
-  const input = document.createElement('input');
-  input.setAttribute('id', 'popup-input');
-  input.setAttribute('onkeydown', `if (event.key === 'Enter') {submitTitle()}`);
-  input.setAttribute('placeholder', 'Insert title');
-  input.setAttribute('type', 'text');
-  input.setAttribute('autocomplete', 'off');
-  popUp.appendChild(input);
-  const check = document.createElement('img');
-  check.removeAttribute('display');
-  check.setAttribute('id', 'popup-check');
-  check.style.filter = currentBackFilter;
-  check.setAttribute('src', 'imgs/check_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg');
-  check.setAttribute('onclick', 'submitTitle()');
-  popUp.appendChild(check);
-  const closeTag = document.createElement('p');
-  closeTag.setAttribute('class', 'close-tag');
-  closeTag.innerText = 'X';
-  closeTag.setAttribute('onclick', 'closePopUp()');
-  popUp.appendChild(closeTag);
-  popUp.addEventListener('keydown', event => {
-    if (event.key === 'Escape') {
-      popUp.remove()
-    }
-  })
-  document.body.append(popUp);
-  input.focus();
-
-};
+  };
+}
 
 function closePopUp() {
-  document.querySelector('.input-popup').remove()
+  document.querySelector('.input-popup').remove();
+  document.getElementById('table').style.opacity = 1;
 };
 
 function submitTitle() {
@@ -1040,7 +1046,7 @@ function submitPages() {
   document.querySelector('.message').innerText = "Have you read it?";
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
-      document.querySelector('.input-popup').remove()
+      closePopUp();
     }
   })
   document.getElementById('popup-check').remove();
@@ -1094,7 +1100,11 @@ function submitNewBook(value) {
   saveTitleOrder();
   sortedBy = 'none';
   saveSortOrder;
+  closePopUp();
+  renderLibrary();
+  setTimeout(() => {
   location.reload();
+  }, 1100);
 };
 
 let titleOrder;
