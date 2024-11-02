@@ -1,6 +1,6 @@
 let myLibrary = [];
 
-if (localStorage.library === undefined || localStorage.library === '[]') {
+if (localStorage.library === undefined || localStorage.library === "[]") {
 
   const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295', 'Not read yet');
   const thePrisonerofAzkaban = new Book('Harry Potter and the Prisoner of Azkaban', 'J.K. Rowling', '317', 'Read');
@@ -59,20 +59,129 @@ let currentBackFilter = 'invert(16%) sepia(6%) saturate(1171%) hue-rotate(221deg
 
 if (localStorage.theme !== undefined) {
   currentTheme = JSON.parse(localStorage.getItem('theme'));
-} else currentTheme = 3;
+} else currentTheme = 2;
 
 renderLibrary();
 
 titleHead = document.getElementById('title-head')
   .addEventListener('click', () => {
-    increaseTitleOrder();
-    changeOriginal();
-    sortByTitle();
-    updateTitleHeader();
-    sortedBy = 'title';
-    saveSortOrder();
-    location.reload();
+    if (isTitleExpanded === 'yes') {
+      sequenceTitleOrder()
+      setTimeout(() => {
+        location.reload();
+      }, 1200);
+    } else if (isAuthorExpanded === 'yes') {
+      sequenceTitleOrder();
+      setTimeout(() => {
+        location.reload();
+      }, 1200);
+    } else {
+      sequenceTitleOrder();
+      location.reload();
+    }
   });
+
+authorHead = document.getElementById('author-head')
+  .addEventListener('click', () => {
+    if (isAuthorExpanded === 'yes') {
+      sequenceAuthorOrder()
+      setTimeout(() => {
+        location.reload();
+      }, 1200);
+    } else if (isTitleExpanded === 'yes') {
+      sequenceAuthorOrder();
+      setTimeout(() => {
+        location.reload();
+      }, 1200);
+    } else {
+      sequenceAuthorOrder();
+      location.reload();
+    }
+  });
+
+pagesHead = document.getElementById('pages-head')
+  .addEventListener('click', () => {
+    if (isAuthorExpanded === 'yes') {
+      sequencePagesOrder()
+      setTimeout(() => {
+        location.reload();
+      }, 1200);
+    } else if (isTitleExpanded === 'yes') {
+      sequencePagesOrder();
+      setTimeout(() => {
+        location.reload();
+      }, 1200);
+    } else {
+      sequencePagesOrder();
+      location.reload();
+    }
+  });
+
+statusHead = document.getElementById('status-head')
+  .addEventListener('click', () => {
+    if (isAuthorExpanded === 'yes') {
+      sequenceStatusOrder()
+      setTimeout(() => {
+        location.reload();
+      }, 1200);
+    } else if (isTitleExpanded === 'yes') {
+      sequenceStatusOrder();
+      setTimeout(() => {
+        location.reload();
+      }, 1200);
+    } else {
+      sequenceStatusOrder();
+      location.reload();
+    }
+  });
+
+function sequenceTitleOrder() {
+  const structure = document.querySelector('.table');
+  structure.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr';
+  increaseTitleOrder();
+  changeOriginal();
+  sortByTitle();
+  updateTitleHeader();
+  sortedBy = 'title';
+  saveSortOrder();
+  renderLibrary();
+}
+
+function sequenceAuthorOrder() {
+  const structure = document.querySelector('.table');
+  structure.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr';
+  increaseAuthorOrder();
+  changeOriginal();
+  sortByAuthor();
+  updateAuthorHeader();
+  sortedBy = 'author';
+  saveSortOrder();
+  renderLibrary();
+}
+
+function sequencePagesOrder() {
+  const structure = document.querySelector('.table');
+  structure.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr';
+  increasePagesOrder();
+  changeOriginal();
+  sortByPages();
+  updatePagesHeader();
+  sortedBy = 'pages';
+  saveSortOrder();
+  renderLibrary();
+}
+
+function sequenceStatusOrder() {
+  const structure = document.querySelector('.table');
+  structure.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr';
+  increaseStatusOrder();
+  changeOriginal();
+  sortByStatus();
+  updateStatusHeader();
+  sortedBy = 'status';
+  saveSortOrder();
+  renderLibrary();
+}
 
 function renderLibrary() {
 
@@ -184,7 +293,16 @@ setTimeout(() => {
 
 function removeRow(i) {
   myLibrary.splice(i, 1);
-  saveToStorage();
+  myLibrary2 = [];
+  myLibrary.forEach((book) => {
+    myLibrary2.push(book);
+  });
+  myLibrary = [];
+  myLibrary2.forEach((book) => {
+    myLibrary.push(book);
+  });
+  localStorage.setItem('library', JSON.stringify(myLibrary));
+  localStorage.setItem('library2', JSON.stringify(myLibrary2));
   document.getElementById(`remove-btn-${i}`).style.opacity = 0;
   document.getElementById(`remove-btn-${i}`).style.transition = '500ms';
   document.querySelectorAll(`.row-${i}`)
@@ -218,18 +336,29 @@ function changePalette(theme) {
     currentFilter = 'invert(88%) sepia(26%) saturate(458%) hue-rotate(80deg) brightness(94%) contrast(88%)';
     currentBackFilter = 'invert(24%) sepia(70%) saturate(1371%) hue-rotate(149deg) brightness(96%) contrast(98%)'
 
+
   } else if (theme === 3) {
     colorA = '#bce784';
     colorB = '#513b56';
     currentTheme = 3;
     currentFilter = 'invert(82%) sepia(93%) saturate(230%) hue-rotate(26deg) brightness(96%) contrast(89%)';
     currentBackFilter = 'invert(20%) sepia(8%) saturate(2420%) hue-rotate(243deg) brightness(101%) contrast(81%)'
+
   }
 
   const root = document.querySelector(':root');
 
   root.style.setProperty('--color1', `${colorA}`)
   root.style.setProperty('--color2', `${colorB}`)
+  root.style.setProperty('--currentFilter', `${currentFilter}`)
+  root.style.setProperty('--currentBackFilter', `${currentBackFilter}`)
+
+  try {
+    document.getElementById('popup-check').style.filter = currentBackFilter;
+  } catch (error) { };
+  try {
+    document.getElementById('popup-cross').style.filter = currentBackFilter;
+  } catch (error) { };
   plusSigns.forEach((sign) => {
     sign.style.filter = currentFilter;
   });
@@ -783,6 +912,11 @@ function editAuthorCell(i) {
 };
 
 function editPagesCell(i) {
+  if (isTitleExpanded === 'yes') {
+    expandTitle();
+  } if (isAuthorExpanded === 'yes') {
+    expandAuthor();
+  }
 
   editOneCellAtATime();
 
@@ -817,6 +951,10 @@ function editStatusCell(i) {
 
 let newBookTitle, newBookAuthor, newBookPages, newBookStatus;
 
+
+
+
+
 function addBook() {
 
   const popUp = document.createElement('div');
@@ -833,6 +971,7 @@ function addBook() {
   input.setAttribute('autocomplete', 'off');
   popUp.appendChild(input);
   const check = document.createElement('img');
+  check.removeAttribute('display');
   check.setAttribute('id', 'popup-check');
   check.style.filter = currentBackFilter;
   check.setAttribute('src', 'imgs/check_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg');
@@ -843,6 +982,11 @@ function addBook() {
   closeTag.innerText = 'X';
   closeTag.setAttribute('onclick', 'closePopUp()');
   popUp.appendChild(closeTag);
+  popUp.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      popUp.remove()
+    }
+  })
   document.body.append(popUp);
   input.focus();
 
@@ -882,6 +1026,11 @@ function submitPages() {
   newBookPages = document.getElementById('popup-input').value;
   document.getElementById('popup-input').remove();
   document.querySelector('.message').innerText = "Have you read it?";
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      document.querySelector('.input-popup').remove()
+    }
+  })
   document.getElementById('popup-check').remove();
   const newDiv = document.createElement('div');
   newDiv.setAttribute('class', 'inner-div');
@@ -892,6 +1041,7 @@ function submitPages() {
   check.setAttribute('onclick', `submitNewBook('Read')`);
   newDiv.appendChild(check);
   const cross = document.createElement('img');
+  cross.removeAttribute('display');
   cross.style.filter = currentBackFilter;
   cross.setAttribute('id', 'popup-cross');
   cross.setAttribute('src', 'imgs/close_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg');
@@ -927,7 +1077,7 @@ function submitNewBook(value) {
   });
   localStorage.setItem('library2', JSON.stringify(myLibrary2));
   original = 'yes';
-  save0riginalStatus();
+  saveOriginalStatus();
   titleOrder = 2;
   saveTitleOrder();
   sortedBy = 'none';
@@ -943,7 +1093,33 @@ if (localStorage.titleorder !== undefined) {
   titleOrder = 2;
 }
 
+let authorOrder;
+
+if (localStorage.authororder !== undefined) {
+  authorOrder = JSON.parse(localStorage.getItem('authororder'))
+} else {
+  authorOrder = 2;
+}
+
+let pagesOrder;
+
+if (localStorage.pagesorder !== undefined) {
+  pagesOrder = JSON.parse(localStorage.getItem('pagesorder'))
+} else {
+  pagesOrder = 2;
+}
+
+let statusOrder;
+
+if (localStorage.statusorder !== undefined) {
+  statusOrder = JSON.parse(localStorage.getItem('statusorder'))
+} else {
+  statusOrder = 2;
+}
+
+
 let sortedBy;
+
 if (localStorage.sortedby !== undefined) {
   sortedBy = localStorage.getItem('sortedby');
 } else {
@@ -966,8 +1142,6 @@ if (localStorage.library2 !== undefined) {
   myLibrary2 = myLibrary;
 }
 
-
-
 function saveSortOrder() {
   localStorage.setItem('sortedby', sortedBy);
 }
@@ -984,6 +1158,42 @@ function increaseTitleOrder() {
   };
 }
 
+function increaseAuthorOrder() {
+  if (authorOrder === 0) {
+    authorOrder = 1;
+  }
+  else if (authorOrder === 1) {
+    authorOrder = 2;
+  }
+  else if (authorOrder === 2) {
+    authorOrder = 0;
+  };
+}
+
+function increasePagesOrder() {
+  if (pagesOrder === 0) {
+    pagesOrder = 1;
+  }
+  else if (pagesOrder === 1) {
+    pagesOrder = 2;
+  }
+  else if (pagesOrder === 2) {
+    pagesOrder = 0;
+  };
+}
+
+function increaseStatusOrder() {
+  if (statusOrder === 0) {
+    statusOrder = 1;
+  }
+  else if (statusOrder === 1) {
+    statusOrder = 2;
+  }
+  else if (statusOrder === 2) {
+    statusOrder = 0;
+  };
+}
+
 function changeOriginal() {
   if (titleOrder === 1) { orignal = 'no' }
   else if (titleOrder === 2) { orignal = 'no' }
@@ -994,7 +1204,19 @@ function saveTitleOrder() {
   localStorage.setItem('titleorder', JSON.stringify(titleOrder))
 };
 
-function save0riginalStatus() {
+function saveAuthorOrder() {
+  localStorage.setItem('authororder', JSON.stringify(authorOrder))
+};
+
+function savePagesOrder() {
+  localStorage.setItem('pagesorder', JSON.stringify(pagesOrder))
+};
+
+function saveStatusOrder() {
+  localStorage.setItem('statusorder', JSON.stringify(statusOrder))
+};
+
+function saveOriginalStatus() {
   localStorage.setItem('originalstatus', original);
 }
 
@@ -1010,23 +1232,115 @@ function updateTitleHeader() {
   };
 }
 
+function updateAuthorHeader() {
+  if (authorOrder === 0) {
+    document.getElementById('author-head').innerHTML = 'Author ⧨';
+  }
+  else if (authorOrder === 1) {
+    document.getElementById('author-head').innerHTML = 'Author  ◭';
+  }
+  else if (authorOrder === 2) {
+    document.getElementById('author-head').innerHTML = 'Author';
+  };
+}
+
+function updatePagesHeader() {
+  if (pagesOrder === 0) {
+    document.getElementById('pages-head').innerHTML = 'Pages ⧨';
+  }
+  else if (pagesOrder === 1) {
+    document.getElementById('pages-head').innerHTML = 'Pages  ◭';
+  }
+  else if (pagesOrder === 2) {
+    document.getElementById('pages-head').innerHTML = 'Pages';
+  };
+}
+
+function updateStatusHeader() {
+  if (statusOrder === 0) {
+    document.getElementById('status-head').innerHTML = 'Status ⧨';
+  }
+  else if (statusOrder === 1) {
+    document.getElementById('status-head').innerHTML = 'Status  ◭';
+  }
+  else if (statusOrder === 2) {
+    document.getElementById('status-head').innerHTML = 'Status';
+  };
+}
+
 function sortByTitle() {
 
   if (titleOrder === 0) {
-    myLibrary = myLibrary.sort((a, b) => a.title > b.title ? 1 : -1);
+    myLibrary = myLibrary.sort((a, b) => a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1);
 
   } else if (titleOrder === 1) {
-    myLibrary = myLibrary.sort((a, b) => a.title < b.title ? 1 : -1);
+    myLibrary = myLibrary.sort((a, b) => a.title.toLowerCase() < b.title.toLowerCase() ? 1 : -1);
   } else if (titleOrder === 2) {
     myLibrary = [];
     myLibrary2.forEach((book) => {
       myLibrary.unshift(book);
     })
   };
-
   saveTitleOrder();
-  save0riginalStatus();
+  saveOriginalStatus();
+  renderLibrary();
+}
 
+function sortByAuthor() {
+
+  if (authorOrder === 0) {
+    myLibrary = myLibrary.sort((a, b) => a.author > b.author ? 1 : -1);
+
+  } else if (authorOrder === 1) {
+    myLibrary = myLibrary.sort((a, b) => a.author < b.author ? 1 : -1);
+  } else if (authorOrder === 2) {
+    myLibrary = [];
+    myLibrary2.forEach((book) => {
+      myLibrary.unshift(book);
+    })
+  };
+  saveAuthorOrder();
+  saveOriginalStatus();
+  renderLibrary();
+}
+
+function sortByPages() {
+
+  if (pagesOrder === 0) {
+    myLibrary = myLibrary.sort((a, b) => Number(a.pages) > Number(b.pages) ? 1 : -1);
+
+  } else if (pagesOrder === 1) {
+    myLibrary = myLibrary.sort((a, b) => Number(a.pages) < Number(b.pages) ? 1 : -1);
+
+  } else if (pagesOrder === 2) {
+    myLibrary = [];
+    myLibrary2.forEach((book) => {
+      myLibrary.unshift(book);
+    });
+
+  };
+  savePagesOrder();
+  saveOriginalStatus();
+  renderLibrary();
+}
+
+function sortByStatus() {
+
+  if (statusOrder === 0) {
+    myLibrary = myLibrary.sort((a, b) => a.status > b.status ? 1 : -1);
+
+  } else if (statusOrder === 1) {
+    myLibrary = myLibrary.sort((a, b) => a.status < b.status ? 1 : -1);
+
+  } else if (statusOrder === 2) {
+    myLibrary = [];
+    myLibrary2.forEach((book) => {
+      myLibrary.unshift(book);
+    });
+
+  };
+  saveStatusOrder();
+  saveOriginalStatus();
   renderLibrary();
 }
 
@@ -1034,14 +1348,17 @@ function sort(type) {
   if (type === 'title') {
     sortByTitle();
     updateTitleHeader();
-//   } else if (type === 'author') {
-//     sortByAuthor();
-//     updateAuthorHeader();
-//   } else if (type === 'pages') {
-//     sortByPages();
-//     updatePagesHeader();
-//   } else if (type === 'none') {
-//     return
+  } else if (type === 'author') {
+    sortByAuthor();
+    updateAuthorHeader();
+  } else if (type === 'pages') {
+    sortByPages();
+    updatePagesHeader();
+  } else if (type === 'status') {
+    sortByStatus();
+    updateStatusHeader();
+  } else if (type === 'none') {
+    return
   }
 }
 
@@ -1059,7 +1376,7 @@ function updateLibrary(i) {
   if (newAuthor) { myLibrary[i].author = newAuthor.value; };
   if (newPages) { myLibrary[i].pages = newPages.value; };
   myLibrary[i].status = newStatus.innerText;
-  
+
 
   document.querySelector(`.remove-btn-${i}`).innerText = 'Remove';
   document.querySelector(`.remove-div-${i}`).removeAttribute('onclick');

@@ -1,6 +1,8 @@
 :root {
   --color1: transparent;
   --color2: transparent;
+  --currentFilter: ;
+  --currentBackFilter: ;
 }
 
 *{
@@ -88,7 +90,7 @@ p {
   cursor: pointer;
   transition: 300ms;
   transition-delay: 500ms;
-  filter: invert(70%) sepia(84%) saturate(338%) hue-rotate(10deg) brightness(115%) contrast(84%);
+  filter: var(--currentFilter);
 }
 
 .footer {
@@ -165,7 +167,7 @@ button{
   width: 10rem;
   padding: 0.3rem 1rem;
   transition: color 300ms;
-  transition: background-color 300ms;
+  transition: background-color 0ms;
   cursor: pointer;
   transform: opacity 1s;
 }
@@ -198,7 +200,7 @@ button{
   height: 3rem;
   margin-bottom: 0.2rem;
   opacity: 0;
-  padding: 1rem;
+  padding: 1rem 2rem;
   height: 1rem;
   line-height: 1rem;
   transition: 1000ms;
@@ -301,7 +303,7 @@ input:hover {
   margin: auto;
   width:15%;
   margin: auto;
-  filter: invert(12%) sepia(16%) saturate(639%) hue-rotate(221deg) brightness(88%) contrast(84%);
+  filter: var(--currentBackFilter);
   cursor: pointer;
 }
 
@@ -318,6 +320,11 @@ input:hover {
 #popup-input:hover{
   background-color: var(--color1);
   color: var(--color2);
+}
+
+#popup-input::selection {
+  background-color: var(--color2);
+  color: var(--color1);
 }
 
 .inner-div {
