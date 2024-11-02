@@ -1,0 +1,463 @@
+:root {
+  --color1: transparent;
+  --color2: transparent;
+  --currentFilter: ;
+  --currentBackFilter: ;
+}
+
+*{
+  margin:0;
+  padding:0
+}
+
+body {
+  display: grid;
+  height: 100vh;
+  background-color: var(--color1);
+  color: var(--color2);
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0s;
+  
+}
+
+.container{
+  display: flex;
+  min-height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  padding: 1rem 1rem 1rem 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  transition: grid-template-columns 1000ms;
+  overflow-y: scroll;
+}
+
+.title-cell {
+  border-radius: 2rem 0 0 2rem;
+}
+
+.status-cell {
+  border-radius: 0 2rem 2rem 0;
+  cursor: pointer;
+}
+
+.column-1,
+.column-2,
+.column-3,
+.column-4,
+.column-5 {
+  max-width: 100%;;
+  min-width: 10rem;
+}
+
+.main-cell {
+  font-size: 1.2rem;
+}
+
+p {
+  background-color: transparent;
+  height: 2rem;
+  line-height: 2rem;
+  padding-right: 1.5rem;
+  position: relative;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.cell {
+  background-color: transparent;
+  height: 2rem;
+  line-height: 2rem;
+  padding-right: 1.5rem;
+  position: relative;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+  overflow: visible;
+  padding: 0.5rem;
+  transition: 300ms;
+}
+
+.image {
+  position: absolute;
+  z-index: 1000;
+  top: 0.9rem;
+  right: 0.5rem;
+  cursor: pointer;
+  transition: 300ms;
+  transition-delay: 500ms;
+  filter: var(--currentFilter);
+}
+
+.footer {
+  background-color: var(--color2);
+  min-height:2rem;
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 200ms;
+}
+
+.add-book-container {
+  position: absolute;
+  bottom: 03rem;
+  display: flex;
+  justify-content: center;
+}
+
+.add-book {
+  position: absolute;
+  transform: translateX(165%);
+  background-color: var(--color2);
+  min-height:0rem;
+  border-radius: 0.6rem;
+  bottom: 0rem;
+  width: 30vw;
+  transition: 200ms;
+  color: var(--color1);
+  text-align: center;
+  animation-name: nudge;
+  animation-duration: 12s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes nudge {
+  0% { min-height:1rem;}
+  3% { min-height:1.5rem;}
+  6% { min-height:1rem;}
+
+  7% { min-height:1rem;}
+  9% { min-height:1.4rem;}
+
+  12% { min-height:1rem;}
+  15% { min-height:1.3rem;}
+  18% { min-height:1rem;}
+
+  50% { min-height:1rem;}
+  53% { min-height:1.5rem;}
+  56% { min-height:1rem;}
+
+  57% { min-height:1rem;}
+  59% { min-height:1.4rem;}
+
+  62% { min-height:1rem;}
+  65% { min-height:1.3rem;}
+  68% { min-height:1rem;}
+}
+
+.add-book:hover {
+  min-height: 3rem;
+  border-radius: 1rem;
+}
+
+button{
+  background-color: var(--color1);
+  color: var(--color2);
+  border: 0.1rem solid var(--color2);
+  filter:  drop-shadow(0.3rem 0.3rem 0px var(--color2));
+  border-radius: 1rem;
+  font-size: 1rem;
+  width: 10rem;
+  padding: 0.3rem 1rem;
+  transition: color 300ms;
+  transition: background-color 0ms;
+  cursor: pointer;
+  transform: opacity 1s;
+}
+
+.palette {
+  position: relative;
+  height: 1.5rem;
+  width: 1.5rem;
+  margin: 1rem;
+  border-radius: 2rem;
+  cursor: pointer;
+}
+
+.palette-1 {
+  background-color: #eae151;
+  border: 0.2rem solid #2d2a32;
+}
+
+.palette-2 {
+  background-color: #99e2b4;
+  border: 0.2rem solid #036666;
+}
+
+.palette-3 {
+  background-color: #bce784;
+  border: 0.2rem solid #513b56;
+}
+
+#p-bottom-div {
+  height: 3rem;
+  margin-bottom: 0.2rem;
+  opacity: 0;
+  padding: 1rem 2rem;
+  height: 1rem;
+  line-height: 1rem;
+  transition: 1000ms;
+}
+
+#p-bottom-div:hover {
+  z-index: 1000;
+  padding: 1rem;
+  opacity: 1;
+  cursor: pointer;
+  height: 3rem;
+  line-height: 3rem;
+}
+
+input {
+  background-color: transparent;
+  color: var(--color2);
+  border: none;
+  font-size: 1rem;
+  width: 80%;
+  outline: none;
+  transition: 200ms;
+  font-style: italic;
+  transition: 200ms;
+}
+
+input::selection {
+  background-color: var(--color1);
+  color: var(--color2);
+  transition: 200ms;
+}
+
+input:hover {
+  background-color: var(--color2);
+  color: var(--color1);
+  transition: 200ms;
+}
+
+.tooltip {
+  position: absolute;
+  margin: auto;
+  left: 0.4rem;
+  font-size: 0.7rem;
+  border-radius: 0.5rem;
+  text-indent: 0.3rem;
+  width: 5rem;
+  opacity: 0;
+  display: none;
+  height: 2rem;
+  background-color: var(--color1);
+  color: var(--color2);
+  transform: translateY(-100%);
+  overflow: visible;
+  transition: opacity 500ms;
+}
+
+.tooltip::after {
+  content: " ";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--color1) transparent transparent transparent;
+}
+
+.input-popup {
+  display:grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  align-items: center;
+  position:absolute;
+  width: 40vw;
+  height: auto;
+  max-height: 20vh;
+  left: 28%;
+  bottom: 30%;
+  border: 0.3rem solid var(--color2);
+  border-radius: 2rem;  
+  background-color: var(--color1);
+  filter:  drop-shadow(0.7rem 0.7rem 0px var(--color2));
+  text-align: center;
+  padding: 1rem
+}
+
+.input-popup::after {
+  content: " ";
+  position: absolute;
+  top: 100%; /* At the bottom of the tooltip */
+  left: 50%;
+  margin-left: -3rem;
+  border-width: 3rem;
+  border-style: solid;
+  border-color: var(--color1) transparent transparent transparent;
+  filter:  drop-shadow(-0.3rem 0.3rem 0px var(--color2));
+}
+
+#popup-check,
+#popup-cross {
+  margin: auto;
+  width:15%;
+  margin: auto;
+  filter: var(--currentBackFilter);
+  cursor: pointer;
+}
+
+#popup-input{
+  font-size: 1.5rem;;
+  text-align: center;
+  margin: auto;
+  padding-top: 1rem;
+}
+
+#popup-input::placeholder {
+  color: var(--color2)
+}
+#popup-input:hover{
+  background-color: var(--color1);
+  color: var(--color2);
+}
+
+#popup-input::selection {
+  background-color: var(--color2);
+  color: var(--color1);
+}
+
+.inner-div {
+  display:table-cell;
+  vertical-align:middle; 
+  margin: auto;
+  width: 100%;
+  margin-bottom: -3%;
+}
+
+.inner-div-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0;
+  position: relative;
+  font-size: 0.7rem;
+}
+
+.yes {
+  margin-top: -2%;
+  margin-right: -70%;
+  cursor: pointer;
+}
+
+.no {
+  margin-top: -2%;
+  margin-left: -70%;
+  cursor: pointer;
+}
+
+.message {
+  margin-top: 1rem;
+}
+
+h3 {
+  cursor: pointer;
+}
+
+.close-tag {
+  background-color: var(--color2);
+  color: var(--color1);
+  position: absolute;
+  left: 1rem;
+  top: 0.7rem;
+  border-radius: 6rem;
+  border: 0.1rem solid var(--color2);
+  font-size: 0.8rem;
+  overflow: visible;
+  line-height: 0.8rem;
+  height: 0.8rem;
+  padding: 0.2rem 0.4rem;
+  cursor: pointer;
+}
+
+.arrow3 {
+  position: absolute;
+  bottom: 1rem;
+  left: 49.5%;
+  width: 0; 
+  height: 0; 
+  border-left: 0.5rem solid transparent;
+  border-right: 0.5rem solid transparent;
+  border-top: 0.5rem solid var(--color2);
+  animation-name: slidedown3;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+}
+
+@keyframes slidedown3 {
+  from{bottom: 1rem;
+    opacity: 1;}
+  to { bottom: 0.5rem;
+    opacity: 0;}  
+}
+
+.arrow {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 49.5%;
+  width: 0; 
+  height: 0; 
+  border-left: 0.5rem solid transparent;
+  border-right: 0.5rem solid transparent;
+  border-top: 0.5rem solid var(--color2);
+  animation-name: slidedown;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;}
+
+@keyframes slidedown {
+  from{bottom: 0.5rem;
+    opacity: 1;}
+  to { bottom: 0rem;
+  opacity: 0;}  
+}
+
+.arrow2 {
+  position: absolute;
+  bottom: 0rem;
+  left: 49.5%;
+  width: 0; 
+  height: 0; 
+  border-left: 0.5rem solid transparent;
+  border-right: 0.5rem solid transparent;
+  border-top: 0.5rem solid var(--color2);
+  animation-name: slidedown2;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;}
+
+@keyframes slidedown2 {
+  from{bottom: 0rem;
+    opacity: 1;}
+  to { bottom: -0.5rem;
+  opacity: 0;}  
+}
+
+
+
+
+.arrow-container {
+  position: absolute;
+  height: 1rem;
+  bottom: 6.3rem;
+  width: 100vw;
+  overflow: hidden;
+  transition: 1s;
+}
+
+.arrow-container:hover {
+  opacity: 0;
+}
