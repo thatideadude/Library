@@ -884,7 +884,9 @@ function editTitleCell(i) {
   input.focus();
   input.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
-      updateLibrary(i)
+      updateLibrary(i);
+    } if (event.key === 'Escape') {
+      editOneCellAtATime();
     }
   });
 
@@ -914,6 +916,14 @@ function editAuthorCell(i) {
   const input = document.getElementById(`authorInput${i}`);
   input.focus();
 
+  input.addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
+      updateLibrary(i);
+    } if (event.key === 'Escape') {
+      editOneCellAtATime(); 
+    } 
+  });
+
   document.querySelector(`.remove-btn-${i}`).innerText = 'Update';
   document.querySelector(`.remove-div-${i}`).removeAttribute('onclick');
   document.querySelector(`.remove-div-${i}`).setAttribute('onclick', `updateLibrary(${i})`);
@@ -942,8 +952,10 @@ function editPagesCell(i) {
 
   input.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
-      updateLibrary(i)
-    }
+      updateLibrary(i);
+    } if (event.key === 'Escape') {
+      editOneCellAtATime(); 
+    } 
   });
 
   document.querySelector(`.remove-btn-${i}`).innerText = 'Update';
@@ -1012,6 +1024,7 @@ function addBook() {
 function closePopUp() {
   document.querySelector('.input-popup').remove();
   document.getElementById('table').style.opacity = 1;
+  isPopUpShowing = 'no';
 };
 
 function submitTitle() {
@@ -1044,11 +1057,6 @@ function submitPages() {
   newBookPages = document.getElementById('popup-input').value;
   document.getElementById('popup-input').remove();
   document.querySelector('.message').innerText = "Have you read it?";
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') {
-      closePopUp();
-    }
-  })
   document.getElementById('popup-check').remove();
   const newDiv = document.createElement('div');
   newDiv.setAttribute('class', 'inner-div');
