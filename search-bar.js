@@ -4,12 +4,17 @@ window.addEventListener('click', (e) => {
   if (isSearchBarShowing === 'yes'
     && e.target === document.querySelector('.container')) {
     closeSearchBar();
+  } if (isPopUpShowing === 'yes'
+    && e.target === document.querySelector('.container')) {
+    closePopUp();
   }
 })
 
 document.querySelector('.search-icon').addEventListener('click', () => {
   if (isSearchBarShowing === 'no') { createSearchBar() };
-  if (isSearchBarShowing === 'yes') { closeSearchBar() };
+  if (isSearchBarShowing === 'yes') {
+    setTimeout(() => { closeSearchBar() }, 1000)
+  }
 })
 
 function createSearchBar() {
@@ -26,6 +31,9 @@ function createSearchBar() {
 
   document.querySelector('.search-wrapper').style.opacity = 1;
   document.querySelector('.table').style.transition = '1s';
+  setTimeout(() => {
+    document.querySelector('.table').style.transition = 'grid-template-columns 1000ms';
+  }, 1000)
   document.querySelector('.table').style.opacity = 0;
   setTimeout(() => { document.querySelector('.table').style.display = 'none' }, 1000)
   document.querySelector('.search-bar-input').focus();
@@ -89,6 +97,9 @@ function closeSearchBar() {
   document.querySelector('.search-wrapper').style.opacity = 0;
   document.querySelector('.table').style.display = 'grid';
   document.querySelector('.table').style.transition = 'opacity 1s';
+  setTimeout(() => {
+    document.querySelector('.table').style.transition = 'grid-template-columns 1000ms';
+  }, 1000)
   try {
     document.querySelector('.results-container').remove();
   } catch (error) { };

@@ -1001,7 +1001,9 @@ let isPopUpShowing = 'no'
 function addBook() {
   if (isPopUpShowing === 'no') {
     isPopUpShowing = 'yes';
+    hideFooter();
     document.getElementById('table').style.opacity = 0;
+    setTimeout(() => { document.querySelector('.table').style.display = 'none'; }, 1000)
     const structure = document.querySelector('.table');
     structure.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr';
     editOneCellAtATime();
@@ -1043,8 +1045,12 @@ function addBook() {
 }
 
 function closePopUp() {
-  document.querySelector('.input-popup').remove();
-  document.getElementById('table').style.opacity = 1;
+  showFooter();
+  setTimeout(() => {
+    document.querySelector('.table').style.display = 'grid';
+    document.querySelector('.table').style.opacity = 1;
+    document.querySelector('.input-popup').remove();
+  }, 600)
   isPopUpShowing = 'no';
 };
 
