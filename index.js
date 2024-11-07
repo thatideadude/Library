@@ -6,11 +6,24 @@ if (localStorage.library === undefined || localStorage.library === "[]") {
   const thePrisonerofAzkaban = new Book('Harry Potter and the Prisoner of Azkaban', 'J.K. Rowling', '317', 'Read');
   const warAndPeace = new Book('War and Peace', 'Leov Tolstoy', '1225', 'Read');
   const crimeAndPunishment = new Book('Crime and Punishment', 'Fyodor Dostoevsky', '565', 'Read');
+  const annaKeranina = new Book('Anna Keranina', 'Leov Tolstoy', '864', 'Read');
+  const theDouble = new Book('O Homem Duplicado', 'José Saramago', '324', 'Read');
+  const masterAndMargarita = new Book('The Master and Margarita', 'Mikhail Bulgakov', '448', 'Not read yet');
+  const theIdiot = new Book('The Idiot', 'Fyodor Dostoevsky', '768', 'Read');
+  const brothersKaramazov = new Book('The Brothers Karamazov', 'Fyodor Dostoevsky', '875', 'Read');
+  const worldAsWillandRepresentation = new Book('The World as Will and Representation', 'Arthur Schopenhauer', '764', 'Not yet read');
+
 
   addBookToLibrary(theHobbit);
   addBookToLibrary(thePrisonerofAzkaban);
   addBookToLibrary(warAndPeace);
   addBookToLibrary(crimeAndPunishment);
+  addBookToLibrary(annaKeranina);
+  addBookToLibrary(theDouble);
+  addBookToLibrary(masterAndMargarita);
+  addBookToLibrary(theIdiot);
+  addBookToLibrary(brothersKaramazov);
+  addBookToLibrary(worldAsWillandRepresentation);
 
 } else {
 
@@ -287,9 +300,12 @@ function renderLibrary() {
   };
 
 }
-setTimeout(() => {
-  document.querySelector('.arrow-container').style.opacity = '0';
-}, 2500)
+//NEEDS TO BE FIXED 
+document.querySelector('.add-book-icon').addEventListener('click', () => {
+  if (isSearchBarShowing === 'no') { addBook() };
+  if (isSearchBarShowing === 'yes') { closePopUp() };
+})
+
 
 function removeRow(i) {
   myLibrary.splice(i, 1);
@@ -328,6 +344,8 @@ function changePalette(theme) {
     currentTheme = 1;
     currentFilter = 'invert(70%) sepia(84%) saturate(338%) hue-rotate(10deg) brightness(115%) contrast(84%)';
     currentBackFilter = 'invert(16%) sepia(6%) saturate(1171%) hue-rotate(221deg) brightness(90%) contrast(92%)';
+    document.querySelector('.search-icon').setAttribute('src', '/imgs/search_24_theme1.svg')
+    document.querySelector('.add-book-icon').setAttribute('src', '/imgs/add_theme1.svg')
 
   } else if (theme === 2) {
     colorA = '#99e2b4';
@@ -335,7 +353,8 @@ function changePalette(theme) {
     currentTheme = 2;
     currentFilter = 'invert(88%) sepia(26%) saturate(458%) hue-rotate(80deg) brightness(94%) contrast(88%)';
     currentBackFilter = 'invert(24%) sepia(70%) saturate(1371%) hue-rotate(149deg) brightness(96%) contrast(98%)'
-
+    document.querySelector('.search-icon').setAttribute('src', '/imgs/search_24_theme2.svg')
+    document.querySelector('.add-book-icon').setAttribute('src', '/imgs/add_theme2.svg')
 
   } else if (theme === 3) {
     colorA = '#bce784';
@@ -343,7 +362,8 @@ function changePalette(theme) {
     currentTheme = 3;
     currentFilter = 'invert(82%) sepia(93%) saturate(230%) hue-rotate(26deg) brightness(96%) contrast(89%)';
     currentBackFilter = 'invert(20%) sepia(8%) saturate(2420%) hue-rotate(243deg) brightness(101%) contrast(81%)'
-
+    document.querySelector('.search-icon').setAttribute('src', '/imgs/search_24_theme3.svg')
+    document.querySelector('.add-book-icon').setAttribute('src', '/imgs/add_theme3.svg')
   }
 
   const root = document.querySelector(':root');
@@ -819,10 +839,10 @@ function editOneCellAtATime() {
     }
 
     try {
-    document.querySelector(`.remove-btn-${i}`).innerText = 'Remove';
-    document.querySelector(`.remove-div-${i}`).removeAttribute('onclick');
-    document.querySelector(`.remove-div-${i}`).setAttribute('onclick', `removeRow(${i})`);
-  } catch (error) { };
+      document.querySelector(`.remove-btn-${i}`).innerText = 'Remove';
+      document.querySelector(`.remove-div-${i}`).removeAttribute('onclick');
+      document.querySelector(`.remove-div-${i}`).setAttribute('onclick', `removeRow(${i})`);
+    } catch (error) { };
   }
 }
 
@@ -920,8 +940,8 @@ function editAuthorCell(i) {
     if (event.key === 'Enter') {
       updateLibrary(i);
     } if (event.key === 'Escape') {
-      editOneCellAtATime(); 
-    } 
+      editOneCellAtATime();
+    }
   });
 
   document.querySelector(`.remove-btn-${i}`).innerText = 'Update';
@@ -954,8 +974,8 @@ function editPagesCell(i) {
     if (event.key === 'Enter') {
       updateLibrary(i);
     } if (event.key === 'Escape') {
-      editOneCellAtATime(); 
-    } 
+      editOneCellAtATime();
+    }
   });
 
   document.querySelector(`.remove-btn-${i}`).innerText = 'Update';
@@ -985,6 +1005,7 @@ function addBook() {
     const structure = document.querySelector('.table');
     structure.style.gridTemplateColumns = '1fr 1fr 1fr 1fr 1fr';
     editOneCellAtATime();
+    setTimeout(() => { document.querySelector('.table').style.display = 0 }, 1000)
     const popUp = document.createElement('div');
     popUp.setAttribute('class', 'input-popup');
     const message = document.createElement('h1');
@@ -1111,7 +1132,7 @@ function submitNewBook(value) {
   closePopUp();
   renderLibrary();
   setTimeout(() => {
-  location.reload();
+    location.reload();
   }, 1100);
 };
 
