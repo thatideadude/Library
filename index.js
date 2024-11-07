@@ -344,8 +344,8 @@ function changePalette(theme) {
     currentTheme = 1;
     currentFilter = 'invert(70%) sepia(84%) saturate(338%) hue-rotate(10deg) brightness(115%) contrast(84%)';
     currentBackFilter = 'invert(16%) sepia(6%) saturate(1171%) hue-rotate(221deg) brightness(90%) contrast(92%)';
-    document.querySelector('.search-icon').setAttribute('src', '/imgs/search_24_theme1.png')
-    document.querySelector('.add-book-icon').setAttribute('src', '/imgs/addtheme1.png')
+    document.querySelector('.search-icon').setAttribute('src', "imgs/search24theme1.png")
+    document.querySelector('.add-book-icon').setAttribute('src', "imgs/addtheme1.png") 
 
   } else if (theme === 2) {
     colorA = '#99e2b4';
@@ -353,8 +353,8 @@ function changePalette(theme) {
     currentTheme = 2;
     currentFilter = 'invert(88%) sepia(26%) saturate(458%) hue-rotate(80deg) brightness(94%) contrast(88%)';
     currentBackFilter = 'invert(24%) sepia(70%) saturate(1371%) hue-rotate(149deg) brightness(96%) contrast(98%)'
-    document.querySelector('.search-icon').setAttribute('src', '/imgs/search_24_theme2.png')
-    document.querySelector('.add-book-icon').setAttribute('src', '/imgs/addtheme2.png')
+    document.querySelector('.search-icon').setAttribute('src', "imgs/search24theme2.png")
+    document.querySelector('.add-book-icon').setAttribute('src', "imgs/addtheme2.png")
 
   } else if (theme === 3) {
     colorA = '#bce784';
@@ -362,8 +362,8 @@ function changePalette(theme) {
     currentTheme = 3;
     currentFilter = 'invert(82%) sepia(93%) saturate(230%) hue-rotate(26deg) brightness(96%) contrast(89%)';
     currentBackFilter = 'invert(20%) sepia(8%) saturate(2420%) hue-rotate(243deg) brightness(101%) contrast(81%)'
-    document.querySelector('.search-icon').setAttribute('src', '/imgs/search_24_theme3.png')
-    document.querySelector('.add-book-icon').setAttribute('src', '/imgs/addtheme3.png')
+    document.querySelector('.search-icon').setAttribute('src', "imgs/search24theme3.png")
+    document.querySelector('.add-book-icon').setAttribute('src', "imgs/addtheme3.png")
   }
 
   const root = document.querySelector(':root');
