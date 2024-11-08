@@ -2,11 +2,11 @@ let myLibrary = [];
 
 if (localStorage.library === undefined || localStorage.library === "[]") {
 
-  const theHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', '295', 'Not read yet');
+  const theHobbit = new Book('The Hobbit', 'J.R.R.Tolkien', '295', 'Not read yet');
   const thePrisonerofAzkaban = new Book('Harry Potter and the Prisoner of Azkaban', 'J.K. Rowling', '317', 'Read');
-  const warAndPeace = new Book('War and Peace', 'Leov Tolstoy', '1225', 'Read');
+  const warAndPeace = new Book('War and Peace', 'Lev Tolstoy', '1225', 'Read');
   const crimeAndPunishment = new Book('Crime and Punishment', 'Fyodor Dostoevsky', '565', 'Read');
-  const annaKeranina = new Book('Anna Keranina', 'Leov Tolstoy', '864', 'Read');
+  const annaKarenina = new Book('Anna Karenina', 'Lev Tolstoy', '864', 'Read');
   const theDouble = new Book('O Homem Duplicado', 'José Saramago', '324', 'Read');
   const masterAndMargarita = new Book('The Master and Margarita', 'Mikhail Bulgakov', '448', 'Not read yet');
   const theIdiot = new Book('The Idiot', 'Fyodor Dostoevsky', '768', 'Read');
@@ -18,7 +18,7 @@ if (localStorage.library === undefined || localStorage.library === "[]") {
   addBookToLibrary(thePrisonerofAzkaban);
   addBookToLibrary(warAndPeace);
   addBookToLibrary(crimeAndPunishment);
-  addBookToLibrary(annaKeranina);
+  addBookToLibrary(annaKarenina);
   addBookToLibrary(theDouble);
   addBookToLibrary(masterAndMargarita);
   addBookToLibrary(theIdiot);
@@ -1448,3 +1448,4 @@ function updateLibrary(i) {
 };
 
 changePalette(currentTheme);
+
